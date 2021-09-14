@@ -3,6 +3,8 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { clientId, guildId, token } = require("../config.json");
 
+require("dotenv").config();
+
 const commands = [
   new SlashCommandBuilder()
     .setName("ping")
@@ -15,13 +17,19 @@ const commands = [
     .setDescription("Replies with user info!"),
 ].map((command) => command.toJSON());
 
-const rest = new REST({ version: "9" }).setToken(token);
+const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 (async () => {
   try {
-    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-      body: commands,
-    });
+    await rest.put(
+      Routes.applicationGuildCommands(
+        process.env.CLIENT_ID,
+        process.env.GUILD_ID
+      ),
+      {
+        body: commands,
+      }
+    );
 
     console.log("Successfully registered application commands.");
   } catch (error) {

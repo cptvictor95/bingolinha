@@ -1,6 +1,7 @@
 const { Client, Intents } = require("discord.js");
-const { token } = require("../config.json");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+
+require("dotenv").config();
 
 client.once("ready", () => {
   console.info(`${client.user && client.user.tag} tá on galera`);
@@ -24,4 +25,4 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.login(token);
+client.login(`${process.env.TOKEN}`);
