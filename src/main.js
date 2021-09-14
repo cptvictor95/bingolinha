@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const token = process.env.TOKEN;
 
+// Iteration over commands folder to read all .js files
 client.commands = new Collection();
 const commandFiles = fs
   .readdirSync("./src/commands")
@@ -18,25 +19,20 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
-// Messaging as the server starts
-client.once("ready", () => {
-  console.info(`${client.user && client.user.tag} tá on galera`);
-});
+// Iteration over events folder to read all .js files
+const eventFiles = fs
+  .readdirSync("./src/events")
+  .filter((file) => file.endsWith(".js"));
 
-// Creating interaction commands
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+for (const file of eventFiles) {
+  const event = require(`./events/${file}`);
 
-  const command = client.commands.get(interaction.commandName);
-
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error.message);
-    await interaction.reply({ content: "Erro com o comando", ephemeral: true });
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
   }
-});
+}
 
+// Login to server with bot token
 client.login(`${token}`);
