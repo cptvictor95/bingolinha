@@ -4,7 +4,7 @@ const wait = require("util").promisify(setTimeout);
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("play")
-    .setDescription("Coloca as crianças para nanar"),
+    .setDescription("Toca uma música através do link"),
   async execute(interaction) {
     if (!interaction.isCommand()) return;
 
