@@ -2,6 +2,8 @@ const fs = require("fs");
 const { Client, Intents, Collection } = require("discord.js");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+console.clear();
+
 // Importing dotenv config vars
 require("dotenv").config();
 

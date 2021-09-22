@@ -7,6 +7,8 @@ module.exports = {
   async execute(interaction) {
     if (!interaction.isCommand()) return;
 
-    await interaction.reply("Pong!");
+    console.info("interaction", interaction);
+
+    await interaction.reply(`Ping: `);
   },
 };
