@@ -1,5 +1,5 @@
 module.exports = {
-  name: "interactionCreate",
+  name: "playSong",
   async execute(interaction) {
     if (!interaction.isCommand()) return;
 
